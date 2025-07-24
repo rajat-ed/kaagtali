@@ -240,7 +240,8 @@ class Obstacle {
     }
 }
 
-// Cloud properties (no longer used for drawing, but class remains if needed for other purposes)
+// Cloud class is no longer used for drawing, and its generation/update logic is removed.
+// It remains here as a placeholder if you wish to re-introduce clouds later.
 class Cloud {
     constructor(x, y, radiusX, radiusY, speed) {
         this.x = x;
@@ -291,27 +292,15 @@ function gameOver() {
 function animate() {
     if (!gameRunning) return;
 
-    // Clear canvas is no longer needed if background image covers it fully
-    // ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-    // Hills and mountains are no longer drawn on the canvas
+    // The canvas background is now transparent, and the image handles the visual background.
+    // No need to clear the canvas or draw static background elements like hills/mountains/clouds here.
 
     frames++;
 
     // Cloud generation and update logic removed
-    // if (frames % 150 === 0) {
-    //     const randomRadiusX = Math.floor(Math.random() * 40) + 50;
-    //     const randomRadiusY = Math.floor(Math.random() * 15) + 20;
-    //     const randomY = Math.floor(Math.random() * (GAME_HEIGHT / 3)) + 50;
-    //     const randomSpeed = Math.random() * 0.5 + 0.2;
-    //     clouds.push(new Cloud(GAME_WIDTH + randomRadiusX, randomY, randomRadiusX, randomRadiusY, randomSpeed));
-    // }
-
-    // Cloud update, draw, and removal loop removed
     // for (let i = clouds.length - 1; i >= 0; i--) {
     //     const cloud = clouds[i];
     //     cloud.update();
-    //     // cloud.draw(); // No longer drawing clouds
     //     if (cloud.offscreen()) {
     //         clouds.splice(i, 1);
     //     }
