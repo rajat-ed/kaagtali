@@ -20,7 +20,7 @@ let score = 0;
 let frames = 0;
 
 // Tweakable background image transparency (0.0 to 1.0)
-let backgroundOpacity = 0.3; // Default transparency
+let backgroundOpacity = 0.5; // Default transparency
 backgroundImageElement.style.opacity = backgroundOpacity;
 
 // Kaagtali (Crow) properties
