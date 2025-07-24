@@ -292,8 +292,8 @@ function gameOver() {
 function animate() {
     if (!gameRunning) return;
 
-    // The canvas background is now transparent, and the image handles the visual background.
-    // No need to clear the canvas or draw static background elements like hills/mountains/clouds here.
+    // Clear the canvas each frame to prevent trails
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     frames++;
 
@@ -301,6 +301,7 @@ function animate() {
     // for (let i = clouds.length - 1; i >= 0; i--) {
     //     const cloud = clouds[i];
     //     cloud.update();
+    //     // cloud.draw(); // No longer drawing clouds
     //     if (cloud.offscreen()) {
     //         clouds.splice(i, 1);
     //     }
