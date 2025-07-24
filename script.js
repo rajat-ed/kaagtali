@@ -30,8 +30,8 @@ const crow = {
     width: 40,
     height: 30,
     velocity: 0,
-    gravity: 0.45, // Slightly reduced gravity for easier control
-    lift: -7.5, // Slightly less lift for finer control
+    gravity: 0.4, // Further reduced gravity for smoother control
+    lift: -7, // Slightly less lift for finer control
     flapState: 0,
     flapSpeed: 5,
 
@@ -240,7 +240,7 @@ class Obstacle {
     }
 }
 
-// Cloud properties
+// Cloud properties (no longer used for drawing, but class remains if needed for other purposes)
 class Cloud {
     constructor(x, y, radiusX, radiusY, speed) {
         this.x = x;
@@ -251,12 +251,7 @@ class Cloud {
     }
 
     draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Semi-transparent white
-        ctx.beginPath();
-        ctx.ellipse(this.x, this.y, this.radiusX, this.radiusY, 0, 0, Math.PI * 2);
-        ctx.ellipse(this.x + this.radiusX * 0.8, this.y + this.radiusY * 0.5, this.radiusX * 0.6, this.radiusY * 0.6, 0, 0, Math.PI * 2);
-        ctx.ellipse(this.x - this.radiusX * 0.7, this.y + this.radiusY * 0.3, this.radiusX * 0.7, this.radiusY * 0.7, 0, 0, Math.PI * 2);
-        ctx.fill();
+        // This method is intentionally left empty as clouds are no longer drawn on canvas
     }
 
     update() {
@@ -269,7 +264,7 @@ class Cloud {
 }
 
 let obstacles = [];
-let clouds = [];
+let clouds = []; // This array will remain empty as clouds are no longer generated
 
 // Game functions
 function startGame() {
@@ -279,54 +274,13 @@ function startGame() {
     crow.y = GAME_HEIGHT / 2;
     crow.velocity = 0;
     obstacles = [];
-    clouds = []; // Clear clouds on restart
+    clouds = []; // Ensure clouds array is cleared, though it won't be populated
     scoreDisplay.textContent = `Score: ${score}`;
     messageBox.style.display = 'none';
     animate();
 }
 
-// Function to draw hills (now green)
-function drawHills() {
-    ctx.fillStyle = '#6ab04c'; // Green for hills
-    ctx.beginPath();
-    ctx.moveTo(0, GAME_HEIGHT);
-    ctx.lineTo(0, GAME_HEIGHT - 80);
-    ctx.quadraticCurveTo(GAME_WIDTH * 0.25, GAME_HEIGHT - 120, GAME_WIDTH * 0.5, GAME_HEIGHT - 80);
-    ctx.quadraticCurveTo(GAME_WIDTH * 0.75, GAME_HEIGHT - 40, GAME_WIDTH, GAME_HEIGHT - 60);
-    ctx.lineTo(GAME_WIDTH, GAME_HEIGHT);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.fillStyle = '#4a823e'; // Slightly darker green for another layer
-    ctx.beginPath();
-    ctx.moveTo(0, GAME_HEIGHT);
-    ctx.lineTo(0, GAME_HEIGHT - 60);
-    ctx.quadraticCurveTo(GAME_WIDTH * 0.3, GAME_HEIGHT - 100, GAME_WIDTH * 0.7, GAME_HEIGHT - 70);
-    ctx.quadraticCurveTo(GAME_WIDTH * 0.9, GAME_HEIGHT - 50, GAME_WIDTH, GAME_HEIGHT - 30);
-    ctx.lineTo(GAME_WIDTH, GAME_HEIGHT);
-    ctx.closePath();
-    ctx.fill();
-}
-
-// Function to draw mountains
-function drawMountains() {
-    ctx.fillStyle = '#4a5568'; // Even darker grey for mountains
-    ctx.beginPath();
-    ctx.moveTo(0, GAME_HEIGHT - 150);
-    ctx.lineTo(GAME_WIDTH * 0.15, GAME_HEIGHT - 250);
-    ctx.lineTo(GAME_WIDTH * 0.3, GAME_HEIGHT - 150);
-    ctx.lineTo(GAME_WIDTH * 0.45, GAME_HEIGHT - 280);
-    ctx.lineTo(GAME_WIDTH * 0.6, GAME_HEIGHT - 160);
-    ctx.lineTo(GAME_WIDTH * 0.75, GAME_HEIGHT - 220);
-    ctx.lineTo(GAME_WIDTH * 0.9, GAME_HEIGHT - 140);
-    ctx.lineTo(GAME_WIDTH, GAME_HEIGHT - 180);
-    ctx.lineTo(GAME_WIDTH, GAME_HEIGHT);
-    ctx.lineTo(0, GAME_HEIGHT);
-    ctx.closePath();
-    ctx.fill();
-}
-
-
+// Functions to draw hills and mountains are removed as background is now an image
 function gameOver() {
     gameRunning = false;
     messageTitle.textContent = 'Game Over!';
@@ -337,33 +291,31 @@ function gameOver() {
 function animate() {
     if (!gameRunning) return;
 
-    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT); // Clear canvas
+    // Clear canvas is no longer needed if background image covers it fully
+    // ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-    // Draw mountains (static for now, can be made to scroll slowly)
-    drawMountains();
-    // Draw hills (static for now, can be made to scroll slowly)
-    drawHills();
+    // Hills and mountains are no longer drawn on the canvas
 
     frames++;
 
-    // Generate new clouds
-    if (frames % 150 === 0) { // Adjust for cloud frequency
-        const randomRadiusX = Math.floor(Math.random() * 40) + 50; // 50-90
-        const randomRadiusY = Math.floor(Math.random() * 15) + 20; // 20-35
-        const randomY = Math.floor(Math.random() * (GAME_HEIGHT / 3)) + 50; // Top third of screen
-        const randomSpeed = Math.random() * 0.5 + 0.2; // 0.2 - 0.7
-        clouds.push(new Cloud(GAME_WIDTH + randomRadiusX, randomY, randomRadiusX, randomRadiusY, randomSpeed));
-    }
+    // Cloud generation and update logic removed
+    // if (frames % 150 === 0) {
+    //     const randomRadiusX = Math.floor(Math.random() * 40) + 50;
+    //     const randomRadiusY = Math.floor(Math.random() * 15) + 20;
+    //     const randomY = Math.floor(Math.random() * (GAME_HEIGHT / 3)) + 50;
+    //     const randomSpeed = Math.random() * 0.5 + 0.2;
+    //     clouds.push(new Cloud(GAME_WIDTH + randomRadiusX, randomY, randomRadiusX, randomRadiusY, randomSpeed));
+    // }
 
-    // Update, draw, and remove clouds
-    for (let i = clouds.length - 1; i >= 0; i--) {
-        const cloud = clouds[i];
-        cloud.update();
-        cloud.draw();
-        if (cloud.offscreen()) {
-            clouds.splice(i, 1);
-        }
-    }
+    // Cloud update, draw, and removal loop removed
+    // for (let i = clouds.length - 1; i >= 0; i--) {
+    //     const cloud = clouds[i];
+    //     cloud.update();
+    //     // cloud.draw(); // No longer drawing clouds
+    //     if (cloud.offscreen()) {
+    //         clouds.splice(i, 1);
+    //     }
+    // }
 
     // Generate new obstacles
     if (frames % 90 === 0) { // Adjust for obstacle frequency
@@ -465,8 +417,15 @@ window.onload = function() {
         canvas.style.width = `${targetCanvasWidth}px`;
         canvas.style.height = `${targetCanvasHeight}px`;
 
+        // Make background image cover the canvas exactly
         backgroundImageElement.style.width = `${targetCanvasWidth}px`;
         backgroundImageElement.style.height = `${targetCanvasHeight}px`;
+        // Position the background image precisely over the canvas
+        const canvasRect = canvas.getBoundingClientRect();
+        backgroundImageElement.style.left = `${canvasRect.left}px`;
+        backgroundImageElement.style.top = `${canvasRect.top}px`;
+        backgroundImageElement.style.position = 'absolute'; // Ensure it's positioned absolutely
+        backgroundImageElement.style.zIndex = '1'; // Ensure it's behind the canvas (canvas z-index 2)
     };
 
     adjustCanvasSize();
